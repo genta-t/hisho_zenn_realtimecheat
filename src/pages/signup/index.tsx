@@ -27,11 +27,7 @@ export const Page = () => {
     e.preventDefault()
     try {
       const auth = getAuth()
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      )
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
       await sendEmailVerification(userCredential.user)
       setEmail('')
       setPassword('')
