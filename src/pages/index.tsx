@@ -1,11 +1,12 @@
-import { Box, Heading } from '@chakra-ui/react'
+import { Heading } from '@chakra-ui/react'
+import { AuthGuard } from '@src/feature/auth/component/AuthGuard/AuthGuard'
 import type { NextPage } from 'next'
 
 const Page: NextPage = () => {
   return (
-    <Box>
+    <AuthGuard>
       <Heading>Chakra UI</Heading>
-    </Box>
+    </AuthGuard>
   )
 }
 
