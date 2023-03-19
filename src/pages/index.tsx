@@ -1,12 +1,16 @@
-import { Heading } from '@chakra-ui/react'
-import { AuthGuard } from '@src/feature/auth/component/AuthGuard/AuthGuard'
+import { Center, Heading, Spacer } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 
 const Page: NextPage = () => {
   return (
-    <AuthGuard>
-      <Heading>Chakra UI</Heading>
-    </AuthGuard>
+    <>
+      <Heading>
+        <Spacer height={56} aria-hidden />
+        <Center>
+          Chakra UI
+        </Center>
+      </Heading>
+    </>
   )
 }
 
