@@ -2,7 +2,7 @@ import { chakra, Container, Flex, Link } from "@chakra-ui/react"
 
 export const Footer = () => {
   return (
-    <chakra.footer mt={64} py={4} bgColor={'blue.600'} color={'white'}>
+    <chakra.footer py={4} bgColor={'blue.600'} color={'white'}>
       <Container maxW={'container.lg'}>
         <Flex flexDirection={'column'} gap={2} alignItems={'start'}>
           <Link lineHeight={1} href={'/'}>トップページ</Link>

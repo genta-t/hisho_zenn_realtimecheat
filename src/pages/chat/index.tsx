@@ -10,9 +10,10 @@ import {
   Spacer,
   Text,
 } from '@chakra-ui/react'
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import { getDatabase, onChildAdded,  push, ref} from '@firebase/database'
 import { FirebaseError } from 'firebase/app'
+import { AuthGuard } from '@src/feature/auth/component/AuthGuard/AuthGuard'
 
 type MessageProps = {
   message: string
@@ -30,6 +31,7 @@ const Message = ({ message }: MessageProps) => {
 }
 
 export const Page = () => {
+  const messagesElementRef = useRef<HTMLDivElement | null>(null)
   const [ message, setMessage ] = useState<string>('')
 
   const handleSendMessage = async (e: FormEvent<HTMLFormElement>) => {
@@ -64,21 +66,29 @@ export const Page = () => {
     }
   }, [])
 
+  useEffect(() => {
+    messagesElementRef.current?.scrollTo({
+      top: messagesElementRef.current.scrollHeight,
+    })
+  }, [chats])
+
   return (
-    <Container py={12}>
-      <Heading>チャット</Heading>
-      <Spacer height={12} aria-hidden />
-      <chakra.form display={'flex'} gap={2} onSubmit={handleSendMessage}>
-        <Input value={message} onChange={(e) => setMessage(e.target.value)} />
-        <Button type={'submit'}>送信</Button>
-      </chakra.form>
-      <Spacer height={16} aria-hidden />
-      <Flex flexDirection={'column'} overflowY={'auto'} gap={2} height={400}>
-        {chats.map((chat, index) => (
-          <Message message={chat.message} key={`ChatMessage_${index}`} />
-        ))}
-      </Flex>
-    </Container>
+    <AuthGuard>
+      <Container py={12}>
+        <Heading>チャット</Heading>
+        <Spacer height={12} aria-hidden />
+        <Flex flexDirection={'column'} overflowY={'auto'} gap={2} height={300} ref={messagesElementRef}>
+          {chats.map((chat, index) => (
+            <Message message={chat.message} key={`ChatMessage_${index}`} />
+          ))}
+        </Flex>
+        <Spacer height={16} aria-hidden />
+        <chakra.form display={'flex'} gap={2} onSubmit={handleSendMessage}>
+          <Input value={message} onChange={(e) => setMessage(e.target.value)} />
+          <Button type={'submit'}>送信</Button>
+        </chakra.form>
+      </Container>
+    </AuthGuard>
   )
 }
 
